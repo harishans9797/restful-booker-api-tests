@@ -3,7 +3,6 @@ package clients;
 import base.BaseRestFulBooker;
 import okhttp3.*;
 import org.testng.Assert;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -73,7 +72,7 @@ public class HttpClientHelper extends BaseRestFulBooker {
 
 
         if (token != null && !token.equals("")) {
-            request.addHeader("Authorization", "Bearer" + token);
+            request.addHeader("Authorization", "Basic " + token);
         }
 
         if (!headers.isEmpty()) {
@@ -88,10 +87,17 @@ public class HttpClientHelper extends BaseRestFulBooker {
     /**
      * Makes a DELETE request to the given [Url] using given [token], and [expectedCode].
      */
-    public String delete(HttpUrl Url, String token, int expectedCode) {
+    public String delete(HttpUrl Url, String token, Map<String, String> headers, int expectedCode) {
         Request.Builder request = new Request.Builder().url(Url);
+        request.delete();
         if (token != null && !token.equals("")) {
-            request.addHeader("Authorization", "Basic" + token);
+            request.addHeader("Authorization", "Basic " + token);
+        }
+
+        if (!headers.isEmpty()) {
+            for (var header : headers.entrySet()) {
+                request.addHeader(header.getKey(), header.getValue());
+            }
         }
 
         return executeCall(client, request.build(), expectedCode);
