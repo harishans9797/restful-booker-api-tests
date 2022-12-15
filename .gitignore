@@ -1,0 +1,14 @@
+# intellij files
+*.iml
+.idea/*
+**/.idea/*
+
+# virtual machine crash logs
+*.class
+hs_err_pid*
+.classpath
+.project
+.settings
+.DS_Store
+**/target/*
+*.log
